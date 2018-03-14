@@ -28,20 +28,3 @@ variable "ami" {
   description = "Ubuntu LTS 16.04 AMD64 HVM EBS"
   default = "ami-f90a4880"
 }
-
-/*
-variable "instance_type" {
-  description = "Instance type"
-  default = "t2.micro"
-}
-
-variable "key_path" {
-  description = "SSH Public Key path"
-  default = "/home/core/.ssh/id_rsa.pub"
-}
-
-variable "bootstrap_path" {
-  description = "Script to install Docker Engine"
-  default = "install-docker.sh"
-}
-*/

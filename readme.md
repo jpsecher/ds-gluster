@@ -11,6 +11,7 @@ Objective: Deploy a Docker Swarm from scratch on AWS where
 * [x] Provision two Ubuntu EC2s in default VPC with Terraform.
 * [x] Provision a cluster of two Ubuntu machines with Ansible so that they run a Swarm cluster.
 * [x] Be able to deploy a hello-world service and Swarm Visualizer on the swarm.
+* [ ] Provision Vault with Ansible.
 * [ ] Let the hello-world service use Vault to get access to the database.
 * [ ] Provision the cluster with GlusterFS as underlying data store.
 * [ ] Make sure that the system is resilient to taking arbitrary nodes down.

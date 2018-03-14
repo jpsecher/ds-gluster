@@ -8,3 +8,4 @@
   roles:
     - docker
     - docker-swarm-master
+    - vault

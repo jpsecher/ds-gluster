@@ -1,0 +1,17 @@
+---
+  - name: Install unzip
+    apt:
+      name: unzip
+      state: present
+
+  - name: Download Vault
+    get_url:
+      url: "{{ url }}"
+      dest: /tmp/vault.zip
+      checksum: "{{ checksum }}"
+
+  - name: Unpack Vault
+    unarchive:
+      src: /tmp/vault.zip
+      dest: /usr/local/bin
+      remote_src: yes

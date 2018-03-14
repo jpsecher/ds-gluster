@@ -1,5 +1,0 @@
----
-  - name: Install (or update) docker-compose package
-    apt:
-      name: "{{ docker_compose_pkg_name }}"
-      state: "present"

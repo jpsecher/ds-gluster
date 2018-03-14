@@ -1,8 +1,9 @@
 # Swarm 1
 
 Objective: Deploy a Docker Swarm from scratch on AWS where
-- there is secrets management via Vault.
-- there is persistent storage via GlusterFS.
+
+* there is secrets management via Vault.
+* there is persistent storage via GlusterFS.
 
 ## Plan
 
@@ -22,12 +23,13 @@ See
 
 ## Creating a cluster
 
+    $ cd terraform
     $ export AWS_PROFILE=lundogbendsen
     $ terraform apply
 
-Copy the `cluster-nodes` from the Terraform output to `ansible/inventory.ini`, the first host as master, the rest as workers:
+Copy the `cluster-nodes` from the Terraform output to `../ansible/inventory.ini`, the first host as master, the rest as workers:
 
-    $ cd ansible
+    $ cd ../ansible
     $ edit inventory.ini
 
 Then start the cluster:
@@ -36,26 +38,27 @@ Then start the cluster:
 
 Copy the token and IP from the output into `group_vars/staging-workers`. Then start all workers:
 
-    ansible-playbook -i inventory.ini --private-key=~/.ssh/ec2-lundogbendsen-jp.pem staging-create-swarm-workers.yml
+    $ ansible-playbook -i inventory.ini --private-key=~/.ssh/ec2-lundogbendsen-jp.pem staging-create-swarm-workers.yml
 
 To see that it is working, make a SSH tunnel (in a new terminal):
 
-    ssh -i ~/.ssh/ec2-lundogbendsen-jp.pem -N -L 2375:/var/run/docker.sock ubuntu@ec2-xx-xx-xx-xx.eu-west-1.compute.amazonaws.com
+    $ ssh -i ~/.ssh/ec2-lundogbendsen-jp.pem -N -L 2375:/var/run/docker.sock ubuntu@ec2-xx-xx-xx-xx.eu-west-1.compute.amazonaws.com
 
 And check that the cluster is running:
 
-    export DOCKER_HOST=tcp://localhost:2375
-    docker node ls
+    $ cd ..
+    $ export DOCKER_HOST=tcp://localhost:2375
+    $ docker node ls
 
 ## Creating a stack
 
-    export DOCKER_HOST=tcp://localhost:2375
-    docker stack deploy -c docker-compose.yml getstartedlab
+    $ export DOCKER_HOST=tcp://localhost:2375
+    $ docker stack deploy -c docker-compose.yml getstartedlab
 
 ## Taking down the stack
 
-    export DOCKER_HOST=tcp://localhost:2375
-    docker stack rm getstartedlab
+    $ export DOCKER_HOST=tcp://localhost:2375
+    $ docker stack rm getstartedlab
 
 ## Todo
 
@@ -69,8 +72,8 @@ And check that the cluster is running:
 
 To see the state of services:
 
-    docker service ls
+    $ docker service ls
 
 To see full error messages
 
-    docker service ps --no-trunc getstartedlab_visualizer
+    $ docker service ps --no-trunc getstartedlab_visualizer

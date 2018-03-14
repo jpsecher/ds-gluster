@@ -7,7 +7,5 @@
       [ "terraform.tfstate*"
       ]
     }
-  , { "path": "../../swarm"
-    }
   ]
 }

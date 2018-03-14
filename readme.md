@@ -1,6 +1,8 @@
 # Swarm 1
 
-Objective: Deploy a Docker Swarm from scratch on AWS, using GlusterFS for persistent storage.
+Objective: Deploy a Docker Swarm from scratch on AWS where
+- there is secrets management via Vault.
+- there is persistent storage via GlusterFS.
 
 ## Plan
 
@@ -8,6 +10,7 @@ Objective: Deploy a Docker Swarm from scratch on AWS, using GlusterFS for persis
 * [x] Provision two Ubuntu EC2s in default VPC with Terraform.
 * [x] Provision a cluster of two Ubuntu machines with Ansible so that they run a Swarm cluster.
 * [x] Be able to deploy a hello-world service and Swarm Visualizer on the swarm.
+* [ ] Let the hello-world service use Vault to get access to the database.
 * [ ] Provision the cluster with GlusterFS as underlying data store.
 * [ ] Make sure that the system is resilient to taking arbitrary nodes down.
 * [ ] Provision a docker container that can simulate backup of files from a whitelist.

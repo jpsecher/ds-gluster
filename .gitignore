@@ -1,3 +1,5 @@
 .terraform/
-terraform.tfstate.backup
 ansible/**/*.retry
+ansible/ansible.cfg
+terraform.tfstate
+terraform.tfstate.backup

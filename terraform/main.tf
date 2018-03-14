@@ -11,7 +11,7 @@ resource "aws_security_group" "trusted-ip-access" {
     Name = "trusted-ip-access"
     Description = "Access SSH and Docker from safe IPs"
     ManagedBy = "terraform"
-    Repo = "swarm-1"
+    Repo = "gitlab:docker-cluster"
     Organisation = "kaleidoscope"
   }
   # SSH access from safe IPs.
@@ -37,7 +37,7 @@ resource "aws_security_group" "cluster-node" {
     Name = "cluster-node"
     Description = "Default security group for cluster nodes"
     ManagedBy = "terraform"
-    Repo = "swarm-1"
+    Repo = "gitlab:docker-cluster"
     Organisation = "kaleidoscope"
   }
   ingress {
@@ -61,13 +61,26 @@ resource "aws_security_group" "cluster-node" {
   }
 }
 
+resource "aws_ebs_volume" "cluster-storage" {
+  count = "${var.cluster_size}"
+  tags {
+    Name = "cluster-storage-${count.index}"
+    Description = "Cluster storage"
+    ManagedBy = "terraform"
+    Repo = "gitlab:docker-cluster"
+    Organisation = "kaleidoscope"
+  }
+  availability_zone = "${element(data.aws_availability_zones.available.names, count.index)}"
+  size = 8
+}
+
 resource "aws_instance" "cluster-node" {
   count = "${var.cluster_size}"
   tags {
     Name = "node-${count.index}"
     Description = "Cluster node"
     ManagedBy = "terraform"
-    Repo = "swarm-1"
+    Repo = "gitlab:docker-cluster"
     Organisation = "kaleidoscope"
   }
   ami = "${var.ami}"
@@ -77,9 +90,15 @@ resource "aws_instance" "cluster-node" {
     "${aws_security_group.trusted-ip-access.id}"
   ]
   root_block_device = {
-    "volume_size" = 8
     "delete_on_termination" = true
   }
   key_name = "${var.aws_key_name}"
   availability_zone = "${element(data.aws_availability_zones.available.names, count.index)}"
+}
+
+resource "aws_volume_attachment" "cluster-storage-attachement" {
+  count = "${var.cluster_size}"
+  device_name = "/dev/xvdb"
+  volume_id   = "${element(aws_ebs_volume.cluster-storage.*.id,count.index)}"
+  instance_id = "${element(aws_instance.cluster-node.*.id,count.index)}"
 }

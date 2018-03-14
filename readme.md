@@ -41,6 +41,11 @@ Copy the token and IP from the output into `group_vars/staging-workers`. Then st
 
     $ ansible-playbook -i inventory.ini --private-key=~/.ssh/ec2-lundogbendsen-jp.pem staging-create-swarm-workers.yml
 
+Or, to avoid specifying the key all the time, put the location of the private key in `ansible/ansible.cfg` like
+
+    [defaults]
+    private_key_file = /Users/jps/.ssh/ec2-lundogbendsen-jp.pem
+
 To see that it is working, make a SSH tunnel (in a new terminal):
 
     $ ssh -i ~/.ssh/ec2-lundogbendsen-jp.pem -N -L 2375:/var/run/docker.sock ubuntu@ec2-xx-xx-xx-xx.eu-west-1.compute.amazonaws.com
@@ -67,7 +72,8 @@ And check that the cluster is running:
     * 7946 TCP/UDP for container network discovery.
     * 4789 UDP for the container ingress network.
 * How to bypass host fingerprint warning from Ansible? ANSIBLE_HOST_KEY_CHECKING=False
-* Check out `--with-registry-auth`
+* Check out ansible `--with-registry-auth`.
+* Ansible role for common Apt stuff: HTTPS, update.
 
 ## Trouble shooting
 

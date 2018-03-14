@@ -1,0 +1,10 @@
+---
+- name: Join Swarm cluster
+  hosts: staging-workers
+  remote_user: ubuntu
+  become: yes
+  become_user: root
+  become_method: sudo
+  roles:
+    - docker
+    - docker-swarm-worker

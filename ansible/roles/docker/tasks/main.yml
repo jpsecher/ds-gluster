@@ -1,0 +1,35 @@
+---
+  - name: Updates apt cache
+    action: apt update_cache=true
+
+  - name: Add docker repository key
+    command: bash -c "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -"
+
+  - name: HTTPS APT transport for Docker repository
+    apt:
+      name: apt-transport-https
+      state: present
+
+  - name: Add Docker repository and update apt cache
+    apt_repository:
+      repo: "{{ apt_repository }}"
+      mode: '644'
+      update_cache: yes
+      state: present
+
+  - name: Install (or update) docker package
+    apt:
+      name: "{{ docker_pkg_name }}"
+      state: "present"
+
+  - name: Making sure that docker is started
+    service:
+      name: docker
+      state: started
+
+  - name: Adding ubuntu user to docker group
+    user:
+      name: ubuntu
+      shell: /bin/bash
+      groups: docker
+      append: yes

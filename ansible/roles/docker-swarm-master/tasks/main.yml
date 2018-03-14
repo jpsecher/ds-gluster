@@ -1,0 +1,40 @@
+---
+  - shell: docker swarm leave --force
+    ignore_errors: True
+
+  - name: starting swarm as master
+    shell: docker swarm init
+    ignore_errors: True
+    register: swarm
+
+  - name: print to stdout
+    command: docker swarm join-token worker
+    register: hello
+
+  - debug: msg="{{ hello.stdout }}"
+
+  - name: save swarm worker join-token
+    command: docker swarm join-token -q worker
+    register: worker_token
+
+  - name: save swarm manager join-token
+    command: docker swarm join-token -q manager
+    register: manager_token
+
+  - name: save swarm master IP
+    shell: echo {{ ansible_default_ipv4.address }}
+    register: master_ip
+
+  - name: removing proxy network so we can create a overlay network with the same name
+    shell: docker network rm proxy > /dev/null 2>&1
+    ignore_errors: True
+
+  - name: creating overlay proxy network for swarm cluster
+    shell: docker network create --driver overlay proxy
+
+  # TODO: this is not debug, this is output that should be acted upon.
+  - debug:
+      msg:
+        - "Insert into group_vars/staging_workers:"
+        - "worker_token: {{ worker_token.stdout }}"
+        - "master_ip: {{ master_ip.stdout }}"

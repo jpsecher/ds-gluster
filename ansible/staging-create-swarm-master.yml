@@ -1,0 +1,10 @@
+---
+- name: Start Swarm master
+  hosts: staging-master
+  remote_user: ubuntu
+  become: yes
+  become_user: root
+  become_method: sudo
+  roles:
+    - docker
+    - docker-swarm-master

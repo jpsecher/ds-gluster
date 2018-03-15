@@ -6,7 +6,6 @@
   become_user: root
   become_method: sudo
   roles:
-    - vault
-    - gluster
+    - gluster-create-volume
     - docker
     - docker-swarm-master

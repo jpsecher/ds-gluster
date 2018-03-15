@@ -33,18 +33,23 @@ Copy the `cluster-nodes` from the Terraform output to `../ansible/inventory.ini`
     $ cd ../ansible
     $ edit inventory.ini
 
-Then start the cluster:
+To avoid specifying the key all the time, put the location of the private key in `ansible/ansible.cfg` like
 
-    $ ansible-playbook -i inventory.ini --private-key=~/.ssh/ec2-lundogbendsen-jp.pem staging-create-swarm-master.yml
+    [defaults]
+    private_key_file = /Users/jps/.ssh/ec2-lundogbendsen-jp.pem
+
+Prepare shared data storage:
+
+    $ export ANSIBLE_HOST_KEY_CHECKING=False
+    $ ansible-playbook -i inventory.ini staging-01-prepare-shared-data-storage.yml
+
+Connect the nodes into a Trusted Storage Pool and start the cluster:
+
+    $ ansible-playbook -i inventory.ini staging-11-create-swarm-master.yml
 
 Copy the token and IP from the output into `group_vars/staging-workers`. Then start all workers:
 
     $ ansible-playbook -i inventory.ini --private-key=~/.ssh/ec2-lundogbendsen-jp.pem staging-create-swarm-workers.yml
-
-Or, to avoid specifying the key all the time, put the location of the private key in `ansible/ansible.cfg` like
-
-    [defaults]
-    private_key_file = /Users/jps/.ssh/ec2-lundogbendsen-jp.pem
 
 To see that it is working, make a SSH tunnel (in a new terminal):
 

@@ -1,0 +1,10 @@
+---
+- name: Shared data storage
+  hosts: all
+  remote_user: ubuntu
+  become: yes
+  become_user: root
+  become_method: sudo
+  roles:
+    #- vault
+    - gluster-prepare

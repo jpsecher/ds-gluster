@@ -1,0 +1,19 @@
+---
+  - name: Add workers to trusted storage pool
+    command: gluster peer probe "{{ item }}"
+    with_items:
+      # TODO: how to avoid hard-coding this to staging?
+      - "{{ groups['staging-workers'] }}"
+
+  - name: Create Gluster volume
+    # TODO: Use {{ brick_dir }}/brick0
+    command: gluster volume create "{{ volume_name }}" replica "{{ groups['all']|length}}" {{ groups['all'] | zip([':/data/gluster/swarm/brick0'] * groups['all']|length) | map('join') | list | join(' ') }}
+    #command: gluster volume create "{{ volume_name }}" replica "{{ groups['all']|length}}" "{{ groups['all'] | zip([':/swarm/volumes'] * groups['all']|length) | map('join') | list | join(' ') }}"
+
+  - name: test
+    debug:
+      msg: '{{ groups["staging-workers"] | zip([":/swarm/volumes"] * groups["staging-workers"] | length) | map("join") | list }}'
+
+# {{ swarm_storage_dir }}
+#  - name: Create Gluster volume
+#    command: gluster volume create "{{ volume_name }}" replica 1 {{ inventory_hostname }}

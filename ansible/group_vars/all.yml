@@ -1,1 +1,6 @@
 ansible_python_interpreter: /usr/bin/python3
+volume_name: swarm
+brick_dir: /data/gluster/swarm
+swarm_storage_dir: /swarm/volumes
+# TODO: Get device from Terraform EBS conf.
+brick_device: /dev/xvdb

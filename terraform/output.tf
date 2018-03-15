@@ -5,3 +5,7 @@ output "availability-zones" {
 output "cluster-nodes" {
   value = "${aws_instance.cluster-node.*.public_dns}"
 }
+
+output "brick-device" {
+  value = "${aws_volume_attachment.cluster-storage-attachement.0}"
+}

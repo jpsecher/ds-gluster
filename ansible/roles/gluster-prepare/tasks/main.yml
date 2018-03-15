@@ -1,0 +1,39 @@
+---
+  - name: Add GlusterFS repository and update apt cache
+    apt_repository:
+      repo: "{{ apt_repository }}"
+      mode: '644'
+      update_cache: yes
+      state: present
+
+  - name: Install GlusterFS
+    apt:
+      name: "glusterfs-server{{ version }}"
+      state: "present"
+
+  - name: Making sure that GlusterFS is started
+    service:
+      name: glusterd
+      state: started
+
+  - name: Create filesystem for brick
+    filesystem:
+      fstype: xfs
+      dev: "{{ brick_device }}"
+
+  - name: Create directory for brick
+    file: path="{{ brick_dir }}" state=directory
+
+  # Does not work?
+  - name: Mount brick
+    mount:
+      path: "{{ brick_dir }}"
+      src: "{{ brick_device }}"
+      fstype: xfs
+      state: mounted
+
+  - name: Create inner brick directory
+    file: path="{{ brick_dir }}/brick0" state=directory
+
+  - name: Create directory for share
+    file: path="{{ swarm_storage_dir }}" state=directory

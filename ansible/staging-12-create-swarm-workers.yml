@@ -6,5 +6,6 @@
   become_user: root
   become_method: sudo
   roles:
+    - gluster-mount-volume
     - docker
     - docker-swarm-worker

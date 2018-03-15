@@ -1,3 +1,3 @@
 # These values are the result of running staging-create-swarm-master.
-worker_token: SWMTKN-1-4mjewbe7t26jsljf3kf8aruzsh0i60mwzqf9sfk8u3j9qjigtq-6yartdwy4iuhykkn4m7rjp9pj
-master_ip: 172.31.14.134
+worker_token: SWMTKN-1-68xt60dsr08tr02qzunbbxoawjzo0zy038kme67sz22ktj1d5w-21pjstlvir90kf2l87ru2i0cp
+master_ip: 172.31.0.154

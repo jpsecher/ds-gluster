@@ -76,6 +76,7 @@ And check that the cluster is running:
 * Only open
     * 7946 TCP/UDP for container network discovery.
     * 4789 UDP for the container ingress network.
+    * 49152 TCP for GlusterFS. See https://www.jamescoyle.net/how-to/457-glusterfs-firewall-rules
 * How to bypass host fingerprint warning from Ansible? ANSIBLE_HOST_KEY_CHECKING=False
 * Check out ansible `--with-registry-auth`.
 * Ansible role for common Apt stuff: HTTPS, update.

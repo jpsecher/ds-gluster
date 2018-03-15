@@ -1,0 +1,3 @@
+---
+- name: Mount replicated data storage
+  command: mount.glusterfs "localhost:/{{ volume_name }}" "{{ swarm_storage_dir }}"

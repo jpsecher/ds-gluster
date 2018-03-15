@@ -1,5 +1,5 @@
 ---
-- name: Start Swarm master
+- name: Start Swarm storage and master
   hosts: staging-master
   remote_user: ubuntu
   become: yes
@@ -7,5 +7,6 @@
   become_method: sudo
   roles:
     - gluster-create-volume
+    - gluster-mount-volume
     - docker
     - docker-swarm-master

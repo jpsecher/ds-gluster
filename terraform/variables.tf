@@ -4,7 +4,7 @@ variable "aws_region" {
 
 variable "cluster_size" {
   description = "How many availability zones to use for the cluster."
-  default = 2
+  default = 3
 }
 
 variable "aws_key_name" {

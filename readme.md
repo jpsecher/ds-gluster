@@ -64,12 +64,12 @@ And check that the cluster is running:
 ## Creating a stack
 
     $ export DOCKER_HOST=tcp://localhost:2375
-    $ docker stack deploy -c docker-compose.yml getstartedlab
+    $ docker stack deploy -c docker-compose.yml mytest
 
 ## Taking down the stack
 
     $ export DOCKER_HOST=tcp://localhost:2375
-    $ docker stack rm getstartedlab
+    $ docker stack rm mytest
 
 ## Todo
 
@@ -89,4 +89,4 @@ To see the state of services:
 
 To see full error messages
 
-    $ docker service ps --no-trunc getstartedlab_visualizer
+    $ docker service ps --no-trunc mytest_visualizer

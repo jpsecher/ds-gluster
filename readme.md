@@ -49,9 +49,9 @@ Connect the nodes into a Trusted Storage Pool and start the cluster:
 
 Copy the token and IP from the output into `group_vars/staging-workers`. Then start all workers:
 
-    $ ansible-playbook -i inventory.ini --private-key=~/.ssh/ec2-lundogbendsen-jp.pem staging-create-swarm-workers.yml
+    $ ansible-playbook -i inventory.ini staging-12-create-swarm-workers.yml
 
-To see that it is working, make a SSH tunnel (in a new terminal):
+To see that it is working, make a SSH tunnel (in a new terminal) to one of the nodes:
 
     $ ssh -i ~/.ssh/ec2-lundogbendsen-jp.pem -N -L 2375:/var/run/docker.sock ubuntu@ec2-xx-xx-xx-xx.eu-west-1.compute.amazonaws.com
 

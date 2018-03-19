@@ -99,6 +99,6 @@ resource "aws_instance" "cluster-node" {
 resource "aws_volume_attachment" "cluster-storage-attachement" {
   count = "${var.cluster_size}"
   device_name = "/dev/xvdb"
-  volume_id   = "${element(aws_ebs_volume.cluster-storage.*.id,count.index)}"
-  instance_id = "${element(aws_instance.cluster-node.*.id,count.index)}"
+  volume_id   = "${aws_ebs_volume.cluster-storage.*.id[count.index]}"
+  instance_id = "${aws_instance.cluster-node.*.id[count.index]}"
 }

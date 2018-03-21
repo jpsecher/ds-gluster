@@ -1,4 +1,0 @@
-host_name: ip-172-31-12-39
-private_ip: 172.31.12.39
-brick_device: /dev/xvdb
-suite: staging

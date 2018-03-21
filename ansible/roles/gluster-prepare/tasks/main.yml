@@ -8,7 +8,7 @@
 
   - name: Install GlusterFS
     apt:
-      name: "glusterfs-server{{ version }}"
+      name: "glusterfs-server"
       state: "present"
 
   - name: Making sure that GlusterFS is started

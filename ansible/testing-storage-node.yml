@@ -1,0 +1,10 @@
+---
+- hosts: testing-storage-node
+  remote_user: ubuntu
+  become: yes
+  become_user: root
+  become_method: sudo
+  roles:
+    - gluster-prepare
+    - gluster-create-volume
+    - gluster-mount-volume

@@ -1,4 +1,4 @@
-# Swarm 1
+# Swarm with Gluster
 
 Objective: Deploy a Docker Swarm from scratch on AWS where
 
@@ -11,16 +11,12 @@ Objective: Deploy a Docker Swarm from scratch on AWS where
 * [x] Provision two Ubuntu EC2s in default VPC with Terraform.
 * [x] Provision a cluster of two Ubuntu machines with Ansible so that they run a Swarm cluster.
 * [x] Be able to deploy a hello-world service and Swarm Visualizer on the swarm.
-* [ ] Provision the cluster with GlusterFS as underlying data store.
+* [ ] Provision a separate GlusterFS as underlying data store.
 * [ ] Make sure that the system is resilient to taking arbitrary nodes down.
+* [ ] It must be possible to scale up by just adding a new Swarm node (eg. EC2 instance).
+* [ ] It must be possible to scale down by removing a Swarm node.
+* [ ] It must be possible to incrementally upgrade the size of Swarm nodes and/or the Gluster bricks.
 * [ ] Provision a docker container that can simulate backup of files from a whitelist.
-* [ ] Provision Vault with Ansible.
-* [ ] Let the hello-world service use Vault to get access to the database.
-
-See
-
-* https://hackernoon.com/setup-docker-swarm-on-aws-using-ansible-terraform-daa1eabbc27d
-* https://docs.docker.com/get-started/
 
 ## Creating a cluster
 
@@ -71,7 +67,7 @@ And check that the cluster is running:
 
 ## Scaling up
 
-Increase the number of nodes in `terraform/variables.tf` and run `terraform plan` to verify that everything looks ok.  Then `terraform apply` to actually create the new instance.
+Increase the number of nodes in `terraform/variables.tf` and run `terraform plan` to verify that everything looks ok. Then `terraform apply` to actually create the new instance.
 
 Add the IPs of the newly created instance to `ansible/inventory.ini` group `staging-new-workers`: (It should be empty initially)
 
@@ -83,7 +79,7 @@ Then provision only the new instance:
     $ ansible-playbook -i inventory.ini -l staging-new-workers staging-01-prepare-shared-data-storage.yml
     $ ansible-playbook -i inventory.ini staging-11-add-worker-to-existing-swarm.yml
 
-Now that the new host is ready to be a worker, *copy* it in `ansible/inventory.ini` from group `staging-new-workers` to group `staging-workers`, and add it (only) to the swarm:
+Now that the new host is ready to be a worker, _copy_ it in `ansible/inventory.ini` from group `staging-new-workers` to group `staging-workers`, and add it (only) to the swarm:
 
     $ ansible-playbook -i inventory.ini -l staging-new-workers staging-12-create-swarm-workers.yml
 
@@ -91,7 +87,7 @@ Finally remove the new hosts from `ansible/inventory.ini` group `staging-new-wor
 
 ## Scaling down
 
-Start by changing the Terraform spec and do a `terraform plan` to find out which host would be taken down if applied.  Them use that host in the following.
+Start by changing the Terraform spec and do a `terraform plan` to find out which host would be taken down if applied. Them use that host in the following.
 
 First drain the swarm node:
 
@@ -99,9 +95,9 @@ First drain the swarm node:
     $ docker node update --availability drain 0hl18vnlus36szv9cvafpiwze
 
 Then SSH into that particular node, and make it leave the swarm:
-    $ ssh ...
-    $ docker swarm leave
-    $ exit
+$ ssh ...
+$ docker swarm leave
+$ exit
 
 Remove the stopped node from the swarm:
 

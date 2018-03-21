@@ -62,10 +62,27 @@ resource "aws_instance" "testing-storage-node" {
 }
 
 resource "aws_volume_attachment" "testing-storage-attachment" {
-  # TODO: Output this constant so it can be used with Ansible.
   device_name = "/dev/xvdb"
   volume_id   = "${aws_ebs_volume.testing-storage.id}"
   instance_id = "${aws_instance.testing-storage-node.id}"
+  # Fix for https://github.com/terraform-providers/terraform-provider-aws/issues/2084.
+  provisioner "remote-exec" {
+    inline = ["sudo poweroff"]
+    when = "destroy"
+    on_failure = "continue"
+    connection {
+      type = "ssh"
+      host = "${aws_instance.testing-storage-node.private_dns}"
+      user = "ubuntu"
+      private_key = "${var.aws_key_name}"
+      agent = false
+    }
+  }
+  # Allow instance some time to power down before attempting volume detachment.
+  provisioner "local-exec" {
+    command = "sleep 10"
+    when = "destroy"
+  }
 }
 
 output "testing-storage-node-public-name" {

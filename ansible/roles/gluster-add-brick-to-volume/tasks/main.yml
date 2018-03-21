@@ -1,0 +1,7 @@
+---
+  - name: Add new host to trusted storage pool
+    command: gluster peer probe "{{ worker }}"
+
+  - name: Create Gluster volume
+    command: gluster volume add-brick "{{ volume_name }}" "{{ worker }}:{{ brick_dir }}/brick0" force
+    # TODO: How to make this idempotent?

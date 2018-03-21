@@ -1,20 +1,20 @@
-resource "aws_ebs_volume" "staging-storage-01-a" {
+resource "aws_ebs_volume" "staging-storage-01-b" {
   tags {
     Description = "Staging cluster storage"
-    Name = "staging-storage-01-a"
+    Name = "staging-storage-01-b"
     ManagedBy = "terraform"
     Repo = "gitlab:docker-cluster"
     Organisation = "kaleidoscope"
   }
   # TODO: setup a map in variables using data source "available".
-  availability_zone = "${var.aws_region}a"
+  availability_zone = "${var.aws_region}b"
   size = 8
 }
 
-resource "aws_instance" "staging-node-01-a" {
+resource "aws_instance" "staging-node-01-b" {
   tags {
     Description = "Staging cluster node"
-    Name = "staging-node-01-a"
+    Name = "staging-node-01-b"
     ManagedBy = "terraform"
     Repo = "gitlab:docker-cluster"
     Organisation = "kaleidoscope"
@@ -31,33 +31,33 @@ resource "aws_instance" "staging-node-01-a" {
   }
   key_name = "${var.aws_key_name}"
   # TODO: setup a map in variables using data source "available".
-  availability_zone = "${var.aws_region}a"
+  availability_zone = "${var.aws_region}b"
 }
 
-resource "aws_volume_attachment" "staging-storage-attachment-01-a" {
+resource "aws_volume_attachment" "staging-storage-attachment-01-b" {
   # TODO: Output this constant so it can be used with Ansible.
   device_name = "/dev/xvdb"
-  volume_id   = "${aws_ebs_volume.staging-storage-01-a.id}"
-  instance_id = "${aws_instance.staging-node-01-a.id}"
+  volume_id   = "${aws_ebs_volume.staging-storage-01-b.id}"
+  instance_id = "${aws_instance.staging-node-01-b.id}"
 }
 
-output "staging-node-01-a-public-name" {
-  value = "${aws_instance.staging-node-01-a.public_dns}"
+output "staging-node-01-b-public-name" {
+  value = "${aws_instance.staging-node-01-b.public_dns}"
 }
 
-output "staging-node-01-a-hostname" {
+output "staging-node-01-b-hostname" {
   # TODO: output hostname instead.
-  value = "${aws_instance.staging-node-01-a.private_ip}"
+  value = "${aws_instance.staging-node-01-b.private_ip}"
 }
 
-output "staging-node-01-a-id" {
-  value = "${aws_instance.staging-node-01-a.id}"
+output "staging-node-01-b-id" {
+  value = "${aws_instance.staging-node-01-b.id}"
 }
 
-output "staging-node-01-a-brick-device" {
-  value = "${aws_volume_attachment.staging-storage-attachment-01-a.device_name}"
+output "staging-node-01-b-brick-device" {
+  value = "${aws_volume_attachment.staging-storage-attachment-01-b.device_name}"
 }
 
-output "staging-node-01-a-suite" {
+output "staging-node-01-b-suite" {
   value = "staging"
 }

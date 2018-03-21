@@ -1,0 +1,5 @@
+host_name: ip-172-31-19-20
+private_ip: 172.31.19.20
+#public_name: ec2-34-245-232-12.eu-west-1.compute.amazonaws.com
+brick_device: /dev/xvdb
+suite: staging

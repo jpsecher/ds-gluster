@@ -1,0 +1,27 @@
+---
+# - hosts: staging-node-01-b
+#   remote_user: ubuntu
+#   become: yes
+#   become_user: root
+#   become_method: sudo
+#   roles:
+#     - gluster-prepare
+
+- hosts: staging-node-01-a
+  remote_user: ubuntu
+  become: yes
+  become_user: root
+  become_method: sudo
+  roles:
+    - role: gluster-add-brick-to-volume
+      worker: "{{ groups['staging-node-01-b'][0] }}"
+
+# - hosts: staging-node-01-b
+#   remote_user: ubuntu
+#   become: yes
+#   become_user: root
+#   become_method: sudo
+#   roles:
+#     - gluster-mount-volume
+#     - docker
+#     - docker-swarm-master

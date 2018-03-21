@@ -8,3 +8,5 @@
     - gluster-prepare
     - gluster-create-volume
     - gluster-mount-volume
+    - docker
+    - docker-swarm-master

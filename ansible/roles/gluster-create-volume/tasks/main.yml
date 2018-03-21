@@ -1,6 +1,6 @@
 ---
   - name: Create Gluster volume
-    command: gluster volume create "{{ volume_name }}" "{{ host_name }}:{{ brick_dir }}/brick0" force
+    command: gluster volume create "{{ volume_name }}" replica 1 "{{ host_name }}:{{ brick_dir }}/brick0" force
 
   - name: Allow local access only
     command: gluster volume set "{{ volume_name }}" auth.allow 127.0.0.1

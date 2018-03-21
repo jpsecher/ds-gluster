@@ -12,12 +12,24 @@ And add to `../ansible/host_vars/ec2-34-244-240-113.eu-west-1.compute.amazonaws.
     host_name: ip-172-31-8-117
     private_ip: 172.31.8.117
     brick_device: /dev/xvdb
+    suite: staging
 
 Start the master:
 
     $ cd ../ansible
-    $ ansible-playbook -i inventory.yml staging-node-01-a.yml
+    $ ansible-playbook -i inventory.ini staging-node-01-a.yml
 
+Then a new worker:
+
+    [staging-node-01-b]
+    ec2-34-245-232-12.eu-west-1.compute.amazonaws.com
+
+and
+
+    host_name: ip-172-31-18-154
+    private_ip: 172.31.18.154
+    brick_device: /dev/xvdb
+    suite: staging
 
 
 

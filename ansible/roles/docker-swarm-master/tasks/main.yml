@@ -35,6 +35,6 @@
   # TODO: this is not debug, this is output that should be acted upon.
   - debug:
       msg:
-        - "Insert into group_vars/staging_workers:"
-        - "worker_token: {{ worker_token.stdout }}"
-        - "master_ip: {{ master_ip.stdout }}"
+        - "Insert into group_vars/all:"
+        - "{{ suite }}_worker_token: {{ worker_token.stdout }}"
+        - "{{ suite }}_master_ip: {{ master_ip.stdout }}"

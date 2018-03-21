@@ -1,0 +1,9 @@
+---
+- name: Add storage in a new node to existing cluster
+  hosts: staging-master
+  remote_user: ubuntu
+  become: yes
+  become_user: root
+  become_method: sudo
+  roles:
+    - gluster-add-bricks-to-volume

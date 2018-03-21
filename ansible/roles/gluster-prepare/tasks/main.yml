@@ -24,7 +24,6 @@
   - name: Create directory for brick
     file: path="{{ brick_dir }}" state=directory
 
-  # Does not work?
   - name: Mount brick
     mount:
       path: "{{ brick_dir }}"

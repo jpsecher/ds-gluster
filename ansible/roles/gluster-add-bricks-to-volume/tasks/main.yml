@@ -1,0 +1,11 @@
+---
+  - name: Add new workers to trusted storage pool
+    command: gluster peer probe "{{ item }}"
+    with_items:
+      # TODO: how to avoid hard-coding this to staging?
+      - "{{ groups['staging-new-workers'] }}"
+
+  - name: Create Gluster volume
+    # TODO: Use {{ brick_dir }}/brick0
+    command: gluster volume add-brick "{{ volume_name }}" replica "{{ groups['all']|length}}" {{ groups['staging-new-workers'] | zip([':/data/gluster/swarm/brick0'] * groups['staging-new-workers']|length) | map('join') | list | join(' ') }} force
+    # TODO: How to make this idempotent?

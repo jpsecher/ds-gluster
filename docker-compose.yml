@@ -34,11 +34,8 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      # TODO: Must be taken from ../ansible/group_vars/all swarm_storage_dir.
+      # TODO: Should be taken from ../ansible/group_vars/all swarm_storage_dir.
       - /swarm/volumes:/data
-    #deploy:
-    #  placement:
-    #    constraints: [node.role == manager]
     command: redis-server --appendonly yes
     networks:
       - webnet

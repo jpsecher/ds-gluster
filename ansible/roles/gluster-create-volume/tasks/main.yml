@@ -7,7 +7,7 @@
 
   - name: Create Gluster volume
     # TODO: Use {{ brick_dir }}/brick0
-    command: gluster volume create "{{ volume_name }}" replica "{{ groups['all']|length}}" {{ groups['all'] | zip([':/data/gluster/swarm/brick0'] * groups['all']|length) | map('join') | list | join(' ') }}
+    command: gluster volume create "{{ volume_name }}" replica "{{ groups['all']|length}}" {{ groups['all'] | zip([':/data/gluster/swarm/brick0'] * groups['all']|length) | map('join') | list | join(' ') }} force
     # TODO: How to make this idempotent?
 
   - name: Allow local access only

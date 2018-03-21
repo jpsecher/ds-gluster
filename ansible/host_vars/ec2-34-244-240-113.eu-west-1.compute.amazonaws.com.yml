@@ -1,0 +1,3 @@
+host_name: ip-172-31-8-117
+private_ip: 172.31.8.117
+brick_device: /dev/xvdb

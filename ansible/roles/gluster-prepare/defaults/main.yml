@@ -1,3 +1,3 @@
 # Newest Long-Term Maintenance version:
 apt_repository: "ppa:gluster/glusterfs-3.12"
-version: "=3.12.6-ubuntu1~xenial1"
+version: "=3.12.7-ubuntu1~xenial1"

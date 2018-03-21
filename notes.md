@@ -1,3 +1,31 @@
+New style:
+
+    $ terraform apply
+
+Add `staging-node-01-a` (eg) as a group to `../ansible/inventory.ini` as
+
+    [staging-node-01-a]
+    ec2-34-244-240-113.eu-west-1.compute.amazonaws.com
+
+And add to `../ansible/host_vars/ec2-34-244-240-113.eu-west-1.compute.amazonaws.com.yml`
+
+    host_name: ip-172-31-8-117
+    private_ip: 172.31.8.117
+    brick_device: /dev/xvdb
+
+Start the master:
+
+    $ cd ../ansible
+    $ ansible-playbook -i inventory.yml staging-node-01-a.yml
+
+
+
+
+
+
+
+-------------------------------------------------------------------------------
+
 After staging-11-create-swarm-master.yml
 ==============
 

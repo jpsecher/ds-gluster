@@ -1,0 +1,17 @@
+---
+  - name: Add workers to trusted storage pool
+    command: gluster peer probe "{{ item }}"
+    with_items:
+      # TODO: how to avoid hard-coding this to staging?
+      - "{{ groups['staging-workers'] }}"
+
+  - name: Create Gluster volume
+    # TODO: Use {{ brick_dir }}/brick0
+    command: gluster volume create "{{ volume_name }}" replica "{{ groups['all']|length}}" {{ groups['all'] | zip([':/data/gluster/swarm/brick0'] * groups['all']|length) | map('join') | list | join(' ') }} force
+    # TODO: How to make this idempotent?
+
+  - name: Allow local access only
+    command: gluster volume set "{{ volume_name }}" auth.allow 127.0.0.1
+
+  - name: Start volume
+    command: gluster volume start "{{ volume_name }}"

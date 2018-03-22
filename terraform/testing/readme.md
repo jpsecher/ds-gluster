@@ -8,8 +8,9 @@ Plan:
 * [ ] Run [GDash](http://aravindavk.in/blog/introducing-gdash/) in a container on the swarm.
 * [ ] Swarm cluster running "getstarted" app, Redis & Visualizer.
 
-## Use
+## Tier-0: Storage
 
+    $ cd storage
     $ terraform apply
 
 Copy output values to `ansible/inventory`:
@@ -35,4 +36,8 @@ Check that the Gluster volume is up:
     $ sudo gluster volume status
     $ exit
 
+## Tier-1: Docker cluster
+
+    $ cd docker-cluster
+    $ terraform apply
 

@@ -5,16 +5,16 @@ provider "aws" {
 
 data "aws_availability_zones" "available" {}
 
-resource "aws_security_group" "testing-storage" {
-  name = "testing storage"
+resource "aws_security_group" "testing-swarm" {
+  name = "testing swarm"
   tags {
-    Description = "Default security group for storage nodes in suite testing"
+    Description = "Default security group for swarm nodes in suite testing"
     Name = "testing-storage"
     ManagedBy = "terraform"
     Repo = "${var.repository}"
     Organisation = "${var.organisation}"
   }
-  # TODO: limit to TCP and UDP ports 24007-24008 and 49152-49152 (1 brick) for
+  # TODO: limit to TCP and UDP ports ? for
   # internal network, and safe IPs for SSH.
   ingress {
     from_port = 0,
@@ -30,22 +30,10 @@ resource "aws_security_group" "testing-storage" {
   }
 }
 
-resource "aws_ebs_volume" "testing-storage" {
+resource "aws_instance" "testing-swarm-node" {
   tags {
-    Description = "testing storage"
-    Name = "testing-storage"
-    ManagedBy = "terraform"
-    Repo = "${var.repository}"
-    Organisation = "${var.organisation}"
-  }
-  availability_zone = "${data.aws_availability_zones.available.names[0]}"
-  size = "${var.storage-gigabytes}"
-}
-
-resource "aws_instance" "testing-storage-node" {
-  tags {
-    Description = "testing gluster node"
-    Name = "testing-storage-node"
+    Description = "testing swarm node"
+    Name = "testing-swarm-node"
     ManagedBy = "terraform"
     Repo = "${var.repository}"
     Organisation = "${var.organisation}"
@@ -96,4 +84,71 @@ output "testing-storage-node-hostname" {
 
 output "testing-storage-node-brick-device" {
   value = "${aws_volume_attachment.testing-storage-attachment.device_name}"
+}
+
+----
+
+
+resource "aws_ebs_volume" "staging-storage-01-a" {
+  tags {
+    Description = "Staging cluster storage"
+    Name = "staging-storage-01-a"
+    ManagedBy = "terraform"
+    Repo = "gitlab:docker-cluster"
+    Organisation = "kaleidoscope"
+  }
+  # TODO: setup a map in variables using data source "available".
+  availability_zone = "${var.aws_region}a"
+  size = 8
+}
+
+resource "aws_instance" "staging-node-01-a" {
+  tags {
+    Description = "Staging cluster node"
+    Name = "staging-node-01-a"
+    ManagedBy = "terraform"
+    Repo = "gitlab:docker-cluster"
+    Organisation = "kaleidoscope"
+  }
+  ami = "${var.ami}"
+  # TODO: setup a map in variables.
+  instance_type = "t2.micro"
+  vpc_security_group_ids = [
+    "${aws_security_group.cluster-node.id}",
+    "${aws_security_group.trusted-ip-access.id}"
+  ]
+  root_block_device = {
+    "delete_on_termination" = true
+  }
+  key_name = "${var.aws_key_name}"
+  # TODO: setup a map in variables using data source "available".
+  availability_zone = "${var.aws_region}a"
+}
+
+resource "aws_volume_attachment" "staging-storage-attachment-01-a" {
+  # TODO: Output this constant so it can be used with Ansible.
+  device_name = "/dev/xvdb"
+  volume_id   = "${aws_ebs_volume.staging-storage-01-a.id}"
+  instance_id = "${aws_instance.staging-node-01-a.id}"
+}
+
+output "staging-node-01-a-public-name" {
+  value = "${aws_instance.staging-node-01-a.public_dns}"
+}
+
+output "staging-node-01-a-hostname" {
+  # TODO: output hostname instead.
+  value = "${aws_instance.staging-node-01-a.private_ip}"
+}
+
+output "staging-node-01-a-id" {
+  value = "${aws_instance.staging-node-01-a.id}"
+}
+
+output "staging-node-01-a-brick-device" {
+  value = "${aws_volume_attachment.staging-storage-attachment-01-a.device_name}"
+}
+
+output "staging-node-01-a-suite" {
+  value = "staging"
 }

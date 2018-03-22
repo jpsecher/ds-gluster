@@ -22,7 +22,7 @@ and to `ansible/host_vars/testing-storage-node.yml`:
 
     host_name: ip-xx-xx-xx-xx.eu-west-1.compute.internal
     brick_device: /dev/xvdb
-    suite: testing
+    environment: testing
 
 Then provision the machine:
 
@@ -40,4 +40,15 @@ Check that the Gluster volume is up:
 
     $ cd docker-cluster
     $ terraform apply
+
+Copy output values to `ansible/inventory`:
+
+    [testing-swarm]
+    testing-storage-node  ansible_host=ec2-yy-yy-yy-yy.eu-west-1.compute.amazonaws.com
+
+and to  `ansible/host_vars/testing-swarm-node.yml`:
+
+    host_name: ip-yy-yy-yy-yy.eu-west-1.compute.internal
+    gluster_name: ip-xx-xx-xx-xx.eu-west-1.compute.internal
+    environment: testing
 

@@ -15,4 +15,4 @@
     file: path="{{ swarm_storage_dir }}" state=directory
 
   - name: Mount replicated data storage
-    command: mount.glusterfs "localhost:/{{ volume_name }}" "{{ swarm_storage_dir }}"
+    command: mount.glusterfs "{{ gluster_name }}:/{{ volume_name }}" "{{ swarm_storage_dir }}"

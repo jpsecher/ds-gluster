@@ -51,8 +51,7 @@ resource "aws_instance" "testing-storage-node" {
     Organisation = "${var.organisation}"
   }
   ami = "${var.ami}"
-  # TODO: setup a map in variables.
-  instance_type = "t2.micro"
+  instance_type = "${var.machine}"
   vpc_security_group_ids = ["${aws_security_group.testing-storage.id}"]
   root_block_device = {
     "delete_on_termination" = true

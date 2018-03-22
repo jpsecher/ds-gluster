@@ -33,6 +33,3 @@
 
   - name: Create inner brick directory
     file: path="{{ brick_dir }}/brick0" state=directory
-
-  - name: Create directory for share
-    file: path="{{ swarm_storage_dir }}" state=directory

@@ -1,0 +1,3 @@
+---
+dependencies:
+- { role: gluster-prepare-client }

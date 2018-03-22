@@ -1,0 +1,18 @@
+---
+  - name: Add GlusterFS repository and update apt cache
+    apt_repository:
+      repo: "{{ apt_repository }}"
+      mode: '644'
+      update_cache: yes
+      state: present
+
+  - name: Install GlusterFS
+    apt:
+      name: "glusterfs-server"
+      state: "present"
+
+  - name: Create directory for share
+    file: path="{{ swarm_storage_dir }}" state=directory
+
+  - name: Mount replicated data storage
+    command: mount.glusterfs "localhost:/{{ volume_name }}" "{{ swarm_storage_dir }}"

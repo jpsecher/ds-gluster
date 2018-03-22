@@ -14,7 +14,8 @@ resource "aws_security_group" "testing-storage" {
     Repo = "${var.repository}"
     Organisation = "${var.organisation}"
   }
-  # TODO: limit.
+  # TODO: limit to TCP and UDP ports 24007-24008 and 49152-49152 (1 brick) for
+  # internal network, and safe IPs for SSH.
   ingress {
     from_port = 0,
     to_port = 0,

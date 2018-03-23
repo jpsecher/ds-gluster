@@ -67,12 +67,12 @@ resource "aws_volume_attachment" "testing-storage-attachment" {
   instance_id = "${aws_instance.testing-storage-node.id}"
   # Fix for https://github.com/terraform-providers/terraform-provider-aws/issues/2084.
   provisioner "remote-exec" {
-    inline = ["sudo poweroff"]
     when = "destroy"
+    inline = ["sudo poweroff"]
     on_failure = "continue"
     connection {
       type = "ssh"
-      host = "${aws_instance.testing-storage-node.private_dns}"
+      host = "${aws_instance.testing-storage-node.public_dns}"
       user = "ubuntu"
       private_key = "${var.aws_key_name}"
       agent = false
@@ -80,8 +80,8 @@ resource "aws_volume_attachment" "testing-storage-attachment" {
   }
   # Allow instance some time to power down before attempting volume detachment.
   provisioner "local-exec" {
-    command = "sleep 10"
     when = "destroy"
+    command = "sleep 30"
   }
 }
 

@@ -8,11 +8,14 @@
 
   - name: Install GlusterFS
     apt:
-      name: "glusterfs-server"
+      name: "glusterfs-client"
       state: "present"
 
   - name: Create directory for share
     file: path="{{ swarm_storage_dir }}" state=directory
 
-  - name: Mount replicated data storage
-    command: mount.glusterfs "{{ gluster_name }}:/{{ volume_name }}" "{{ swarm_storage_dir }}"
+#  - name: Mount replicated data storage
+#    command: mount.glusterfs "{{ gluster_name }}:/{{ volume_name }}" "{{ swarm_storage_dir }}"
+
+# TODO: https://www.jamescoyle.net/how-to/439-mount-a-glusterfs-volume
+# TODO: https://stackoverflow.com/questions/20070717/glusterfs-denied-mount

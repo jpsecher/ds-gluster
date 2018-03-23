@@ -10,6 +10,7 @@ Plan:
 
 ## Tier-0: Storage
 
+    $ export AWS_PROFILE=lundogbendsen
     $ cd storage
     $ terraform apply
 
@@ -52,3 +53,13 @@ and to  `ansible/host_vars/testing-swarm-node.yml`:
     gluster_name: ip-xx-xx-xx-xx.eu-west-1.compute.internal
     environment: testing
 
+Then provision the machine:
+
+    $ cd ../../../ansible
+    $ ansible-playbook -i inventory.ini testing-swarm-node.yml
+
+
+
+## TODO
+
+- Share plugins: https://github.com/hashicorp/terraform/issues/15949

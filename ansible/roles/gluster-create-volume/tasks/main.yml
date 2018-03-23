@@ -2,8 +2,11 @@
   - name: Create Gluster volume
     command: gluster volume create "{{ volume_name }}" "{{ host_name }}:{{ brick_dir }}/brick0" force
 
-  - name: Allow local access only
+  - name: Allow local access
     command: gluster volume set "{{ volume_name }}" auth.allow 127.0.0.1
+
+  - name: Allow internal access
+    command: gluster volume set "{{ volume_name }}" auth.allow {{ internal_network }}
 
   - name: Start volume
     command: gluster volume start "{{ volume_name }}"

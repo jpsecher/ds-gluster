@@ -1,3 +1,4 @@
 host_name: ip-172-31-0-169.eu-west-1.compute.internal
+internal_network: 173.0.*
 brick_device: /dev/xvdb
 environment: testing

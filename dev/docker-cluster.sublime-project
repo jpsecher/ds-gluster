@@ -2,6 +2,7 @@
   [ { "path": ".."
     , "folder_exclude_patterns":
       [ ".terraform"
+      , "testing/*/roles"
       ]
     , "file_exclude_patterns":
       [ "terraform.tfstate*"

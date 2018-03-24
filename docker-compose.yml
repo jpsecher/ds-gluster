@@ -29,6 +29,12 @@ services:
     networks:
       - webnet
 
+  gdash:
+    image: kawaz/gdash
+    ports:
+      - "8081:8080"
+    command: gdash --host ip-172-31-6-170.eu-west-1.compute.internal
+
   redis:
     image: redis
     ports:

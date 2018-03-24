@@ -65,6 +65,11 @@ Check that the swarm is running (see [setup.md](../../setup.md):
     $ export DOCKER_HOST=tcp://localhost:2375
     $ docker node ls
 
+Start the test swarm:
+
+    $ cd ../..
+    $ docker stack deploy -c docker-compose.yml mytest
+
 ## TODO
 
 - Convert AWS subnet to eg. `173.31.*`

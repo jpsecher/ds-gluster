@@ -1,0 +1,13 @@
+---
+  - name: Create Gluster volume
+    command: gluster volume create "{{ volume_name }}" "{{ host_name }}:{{ brick_dir }}/brick0" force
+
+  # TODO: Cannot get this to work:
+  # - name: Allow local & internal access
+  #   command: gluster volume set "{{ volume_name }}" auth.allow "127.0.0.1,{{ internal_network }}"
+  # So doing this instead:
+  - name: Allow all access
+    command: gluster volume set "{{ volume_name }}" auth.allow "*"
+
+  - name: Start volume
+    command: gluster volume start "{{ volume_name }}"

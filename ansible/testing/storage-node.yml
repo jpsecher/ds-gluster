@@ -1,9 +1,0 @@
----
-- hosts: storage-node
-  remote_user: "{{ user }}"
-  become: yes
-  become_user: root
-  become_method: sudo
-  roles:
-    - gluster-prepare-server
-    - gluster-create-volume

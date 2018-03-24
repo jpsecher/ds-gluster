@@ -1,3 +1,1 @@
-host_name: ip-172-31-5-199.eu-west-1.compute.internal
-gluster_name: ip-172-31-0-169.eu-west-1.compute.internal
-environment: testing
+host_name:

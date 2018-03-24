@@ -14,20 +14,19 @@ Plan:
     $ cd storage
     $ terraform apply
 
-Copy output values to `ansible/inventory`:
+Copy output values to `ansible/testing/inventory.ini`:
 
-    [testing-storage]
-    testing-storage-node  ansible_host=ec2-xx-xx-xx-xx.eu-west-1.compute.amazonaws.com
+    [storage]
+    storage-node  ansible_host=ec2-xx-xx-xx-xx.eu-west-1.compute.amazonaws.com
 
-and to `ansible/host_vars/testing-storage-node.yml`:
+and to `ansible/testing/host_vars/storage-node.yml`:
 
     host_name: ip-xx-xx-xx-xx.eu-west-1.compute.internal
     brick_device: /dev/xvdb
-    environment: testing
 
 Then provision the machine:
 
-    $ cd ../../../ansible
+    $ cd ../../../ansible/testing/
     $ ansible-playbook -i inventory.ini testing-storage-node.yml
 
 Check that the Gluster volume is up:
@@ -42,24 +41,27 @@ Check that the Gluster volume is up:
     $ cd docker-cluster
     $ terraform apply
 
-Copy output values to `ansible/inventory`:
+Copy output values to `ansible/testing/inventory.ini`:
 
-    [testing-swarm]
-    testing-storage-node  ansible_host=ec2-yy-yy-yy-yy.eu-west-1.compute.amazonaws.com
+    [swarm]
+    swarm-node  ansible_host=ec2-yy-yy-yy-yy.eu-west-1.compute.amazonaws.com
 
-and to  `ansible/host_vars/testing-swarm-node.yml`:
+and to `ansible/testing/host_vars/swarm-node.yml`:
 
     host_name: ip-yy-yy-yy-yy.eu-west-1.compute.internal
+
+and to `ansible/testing/group_vars/swarm.yml`:
+
     gluster_name: ip-xx-xx-xx-xx.eu-west-1.compute.internal
-    environment: testing
 
 Then provision the machine:
 
-    $ cd ../../../ansible
-    $ ansible-playbook -i inventory.ini testing-swarm-node.yml
+    $ cd ../../../ansible/testing/
+    $ ansible-playbook -i inventory.ini swarm-node.yml
 
 
 
 ## TODO
 
 - Share plugins: https://github.com/hashicorp/terraform/issues/15949
+- Convert AWS subnet to eg. `173.31.*`

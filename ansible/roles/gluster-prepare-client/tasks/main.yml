@@ -14,8 +14,25 @@
   - name: Create directory for share
     file: path="{{ swarm_storage_dir }}" state=directory
 
-#  - name: Mount replicated data storage
-#    command: mount.glusterfs "{{ gluster_name }}:/{{ volume_name }}" "{{ swarm_storage_dir }}"
+  - name: Mount replicated data storage
+    mount:
+      src: "{{ gluster_name }}:/{{ volume_name }}"
+      path: "{{ swarm_storage_dir }}"
+      fstype: glusterfs
+      opts: "defaults,_netdev"
+      state: mounted
 
-# TODO: https://www.jamescoyle.net/how-to/439-mount-a-glusterfs-volume
-# TODO: https://stackoverflow.com/questions/20070717/glusterfs-denied-mount
+  # - name: Mount replicated data storage
+  #   command: mount.glusterfs "{{ gluster_name }}:/{{ volume_name }}" "{{ swarm_storage_dir }}"
+
+
+# Notes:
+# https://www.jamescoyle.net/how-to/439-mount-a-glusterfs-volume
+# https://stackoverflow.com/questions/20070717/glusterfs-denied-mount
+# ip-172-31-9-194.eu-west-1.compute.internal:/swarm /swarm/volumes glusterfs defaults,_netdev 0 0
+# sudo apt-get install chrony
+# echo 'server 169.254.169.123 prefer iburst' >> /etc/chrony/chrony.conf
+# sudo service chrony start
+# sudo cat /var/log/chrony/tracking.log
+# sudo /etc/init.d/chrony restart
+# chronyc sources -v

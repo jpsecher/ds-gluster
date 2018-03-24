@@ -4,7 +4,3 @@ volume_name: swarm
 brick_dir: /data/gluster/swarm
 swarm_storage_dir: /swarm/volumes
 user: ubuntu
-
-# These values are the result of running staging-create-swarm-master on suite syaging.
-staging_worker_token: SWMTKN-1-1lmuh5z0qsldp986yw1zcbknc77sunhdb7ju8zmltddpa0rvlk-ajzfzfdjd80njm3l13qk7qktn
-staging_master_ip: 172.31.9.15

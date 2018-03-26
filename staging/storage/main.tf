@@ -77,7 +77,7 @@ resource "aws_volume_attachment" "staging-storage-attachment" {
     #on_failure = "continue"
     connection {
       type = "ssh"
-      host = "${aws_instance.staging-storage-node.public_dns}"
+      host = "${aws_instance.staging-storage-node.*.public_dns[count.index]}"
       user = "ubuntu"
       private_key = "${file("~/.ssh/${var.aws_key_name}.pem")}"
       agent = false

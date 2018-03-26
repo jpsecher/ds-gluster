@@ -1,11 +1,11 @@
-# Suite for testing
+# Suite for staging
 
 Plan:
 
-* [x] Default VPC with default subnet in one availability zone.
-* [x] One Gluster server with one brick as one volume.
-* [x] One Swarm node with Gluster volume mounted.
-* [x] Swarm cluster running "getstarted" app, Redis & Visualizer.
+* [x] Default VPC with default subnets in two availability zones.
+* [ ] One Gluster server with one brick in each AZ, as a replicated storage.
+* [ ] One Swarm node in each AZ with Gluster volume mounted.
+* [ ] Swarm cluster running "getstarted" app, Redis & Visualizer.
 * [ ] Limit security group ingres to be as tight as possible.
 * [ ] Use dedicated VPC (instead of default).
 
@@ -20,17 +20,28 @@ See [setup.md](../setup.md).
 
 Copy output values to `inventory.ini`:
 
-    [storage]
-    storage-node  ansible_host=ec2-xx-xx-xx-xx.eu-west-1.compute.amazonaws.com
+    [master]
+    storage-master  ansible_host=ec2-xx-xx-xx-xx.eu-west-1.compute.amazonaws.co
 
-and to `host_vars/storage-node.yml`:
+    [workers]
+    storage-worker-1  ansible_host=ec2-yy-yy-yy-yy.eu-west-1.compute.amazonaws.com
+    storage-worker-2  ansible_host=ec2-zz-zz-zz-zz.eu-west-1.compute.amazonaws.com
+
+and to `host_vars/storage-master.yml`:
 
     host_name: ip-xx-xx-xx-xx.eu-west-1.compute.internal
+
+and to `group_vars/all.yml`:
+
     brick_device: /dev/xvdb
+
+and to `group_vars/workers.yml`:
+
+    master_host_name: ip-xx-xx-xx-xx.eu-west-1.compute.internal
 
 Then provision the machine:
 
-    $ ansible-playbook -i inventory.ini storage-node.yml
+    $ ansible-playbook -i inventory.ini storage-master.yml
 
 Check that the Gluster volume is up:
 

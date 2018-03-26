@@ -36,5 +36,5 @@
   - debug:
       msg:
         - "Insert into group_vars/all:"
-        - "{{ environment }}_worker_token: {{ worker_token.stdout }}"
-        - "{{ environment }}_master_ip: {{ master_ip.stdout }}"
+        - "worker_token: {{ worker_token.stdout }}"
+        - "master_ip: {{ master_ip.stdout }}"

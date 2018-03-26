@@ -3,11 +3,13 @@
     , "folder_exclude_patterns":
       [ ".terraform"
       , "testing/*/roles"
+      , "staging/*/roles"
       ]
     , "file_exclude_patterns":
       [ "terraform.tfstate*"
-      , "ansible/*/ansible.cfg"
-      , "ansible/*/group_vars/all.yml"
+      , "testing/*/ansible.cfg"
+      , "staging/*/ansible.cfg"
+      , "readonly-*variables.tf"
       ]
     }
   ]

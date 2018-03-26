@@ -3,9 +3,10 @@
 Plan:
 
 * [x] Default VPC with default subnets in two availability zones.
-* [ ] One Gluster server with one brick in each AZ, as a replicated storage.
+* [x] One Gluster server with one brick in each AZ, as a replicated storage.
 * [ ] One Swarm node in each AZ with Gluster volume mounted.
 * [ ] Swarm cluster running "getstarted" app, Redis & Visualizer.
+* [ ] Make it possible to extend/shrink the storage cluster.
 * [ ] Limit security group ingres to be as tight as possible.
 * [ ] Use dedicated VPC (instead of default).
 
@@ -31,6 +32,10 @@ and to `host_vars/storage-master.yml`:
 
     host_name: ip-xx-xx-xx-xx.eu-west-1.compute.internal
 
+and to `host_vars/storage-worker-x.yml`:
+
+    host_name: ip-yy-yy-yy-yy.eu-west-1.compute.internal
+
 and to `group_vars/all.yml`:
 
     brick_device: /dev/xvdb
@@ -39,7 +44,15 @@ and to `group_vars/workers.yml`:
 
     master_host_name: ip-xx-xx-xx-xx.eu-west-1.compute.internal
 
-Then provision the machine:
+### Workers
+
+For each of the workers:
+
+    $ ansible-playbook -i inventory.ini storage-worker-nn.yml
+
+### Master
+
+Then provision the master:
 
     $ ansible-playbook -i inventory.ini storage-master.yml
 
@@ -57,20 +70,30 @@ Check that the Gluster volume is up:
 
 Copy output values to `inventory.ini`:
 
-    [swarm]
-    swarm-node  ansible_host=ec2-yy-yy-yy-yy.eu-west-1.compute.amazonaws.com
+    [master]
+    swarm-master  ansible_host=ec2-xx-xx-xx-xx.eu-west-1.compute.amazonaws.com
 
-and to `host_vars/swarm-node.yml`:
+    [workers]
+    swarm-worker-1  ansible_host=ec2-yy-yy-yy-yy.eu-west-1.compute.amazonaws.com
 
-    host_name: ip-yy-yy-yy-yy.eu-west-1.compute.internal
-
-and the storage hostname to `group_vars/swarm.yml`:
+and the storage hostname (from the storage tier-0) to `group_vars/all.yml`:
 
     gluster_name: ip-xx-xx-xx-xx.eu-west-1.compute.internal
 
-Then provision the machine:
+Then provision the swarm master:
 
-    $ ansible-playbook -i inventory.ini swarm-node.yml
+    $ ansible-playbook -i inventory.ini swarm-master.yml
+
+Copy the output token and IP into `group_vars/workers.yml`:
+
+    worker_token: SWMTKN-1-22dxtbt...
+    master_ip: 172.31.6.169
+
+Then provision all the workers:
+
+    $ ansible-playbook -i inventory.ini swarm-worker-1.yml
+    $ ansible-playbook -i inventory.ini swarm-worker-2.yml
+    $ ...
 
 Check that the swarm is running (see [setup.md](../../setup.md):
 

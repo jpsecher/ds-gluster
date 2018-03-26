@@ -9,7 +9,7 @@ resource "aws_security_group" "testing-swarm" {
   name = "testing swarm"
   tags {
     Description = "Default security group for swarm nodes in suite testing"
-    Name = "testing-storage"
+    Name = "testing-swarm"
     ManagedBy = "terraform"
     Repo = "${var.repository}"
     Organisation = "${var.organisation}"

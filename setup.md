@@ -8,7 +8,7 @@ Tell terraform to use a specific AWS account (which of course must already be se
 
 ## Ansible
 
-To avoid specifying the key all the time, put the location of the private key in `ansible/ansible.cfg` like
+To avoid specifying the key all the time, put the location of the private key in `ansible.cfg` like
 
     [defaults]
     private_key_file = /Users/jps/.ssh/ec2-lundogbendsen-jp.pem

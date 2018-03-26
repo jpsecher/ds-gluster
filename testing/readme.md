@@ -5,7 +5,6 @@ Plan:
 * [x] Default VPC with default subnet in one availability zone.
 * [x] One Gluster server with one brick as one volume.
 * [x] One Swarm node with Gluster volume mounted.
-* [ ] Run [GDash](http://aravindavk.in/blog/introducing-gdash/) in a container on the swarm. https://hub.docker.com/r/kawaz/gdash ?
 * [x] Swarm cluster running "getstarted" app, Redis & Visualizer.
 
 ## Initial setup
@@ -52,7 +51,7 @@ and to `host_vars/swarm-node.yml`:
 
     host_name: ip-yy-yy-yy-yy.eu-west-1.compute.internal
 
-and to `group_vars/swarm.yml`:
+and the storage hostname to `group_vars/swarm.yml`:
 
     gluster_name: ip-xx-xx-xx-xx.eu-west-1.compute.internal
 

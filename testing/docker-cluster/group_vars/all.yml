@@ -2,4 +2,4 @@ ansible_python_interpreter: /usr/bin/python3
 volume_name: swarm
 swarm_storage_dir: /swarm/volumes
 user: ubuntu
-environement: testing
+environment: testing

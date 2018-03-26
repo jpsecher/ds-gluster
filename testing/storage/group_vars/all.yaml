@@ -3,4 +3,4 @@ volume_name: swarm
 brick_dir: /data/gluster/swarm
 swarm_storage_dir: /swarm/volumes
 user: ubuntu
-environement: testing
+environment: testing

@@ -1,0 +1,31 @@
+---
+  - name: Add workers to trusted storage pool
+    command: gluster peer probe "{{ hostvars[item]['host_name'] }}"
+    with_items:
+      - "{{ groups['workers'] }}"
+
+  - name: Stop volume
+    gluster_volume:
+      name: "{{ volume_name }}"
+      state: stopped
+
+  - name: Create Gluster volume
+    gluster_volume:
+      name: "{{ volume_name }}"
+      state: present
+      bricks: "{{ brick_dir }}/brick0"
+      cluster: "{% for host in groups['all'] %}{{ hostvars[host]['host_name'] }}{%- if not loop.last -%},{% endif %}{% endfor %}"
+      replicas: "{{ groups['all']|length}}"
+      force: True
+
+  # TODO: Cannot get this to work:
+  # - name: Allow local & internal access
+  #   command: gluster volume set "{{ volume_name }}" auth.allow "127.0.0.1,{{ internal_network }}"
+  # So doing this instead:
+  - name: Allow all access
+    command: gluster volume set "{{ volume_name }}" auth.allow "*"
+
+  - name: Start volume
+    gluster_volume:
+      name: "{{ volume_name }}"
+      state: started

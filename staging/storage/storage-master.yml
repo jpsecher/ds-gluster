@@ -6,4 +6,4 @@
   become_method: sudo
   roles:
     - gluster/server-prepare
-    - gluster/create-volume
+    - gluster/create-cluster-volume

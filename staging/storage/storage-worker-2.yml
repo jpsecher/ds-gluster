@@ -6,3 +6,4 @@
   become_method: sudo
   roles:
     - gluster/server-prepare
+    - gluster/brick-create

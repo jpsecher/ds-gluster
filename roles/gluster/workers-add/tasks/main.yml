@@ -1,0 +1,5 @@
+---
+  - name: Add workers to trusted storage pool
+    command: gluster peer probe "{{ hostvars[item]['host_name'] }}"
+    with_items:
+      - "{{ groups['workers'] }}"

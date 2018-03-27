@@ -3,4 +3,3 @@ volume_name: swarm
 brick_dir: /data/gluster/swarm
 user: ubuntu
 environment: staging
-brick_device: /dev/xvdb

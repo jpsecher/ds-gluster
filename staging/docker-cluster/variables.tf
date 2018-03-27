@@ -1,6 +1,6 @@
 variable "swarm-cluster-zones" {
   description = "Number of availability zones to spread the swarm across"
-  default = 2
+  default = 1
 }
 
 variable "swarm-node-image" {

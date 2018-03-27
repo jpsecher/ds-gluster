@@ -1,0 +1,9 @@
+---
+  - name: Add bricks to volume
+    gluster_volume:
+      name: "{{ volume_name }}"
+      state: present
+      bricks: "{{ brick_dir }}/{{ brick_name }}"
+      cluster: "{% for host in groups['all'] %}{{ hostvars[host]['host_name'] }}{%- if not loop.last -%},{% endif %}{% endfor %}"
+      replicas: "{{ groups['all']|length}}"
+      force: True

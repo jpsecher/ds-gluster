@@ -1,0 +1,18 @@
+---
+  - name: Create filesystem for brick
+    filesystem:
+      fstype: xfs
+      dev: "{{ brick_device }}"
+
+  - name: Create directory for brick
+    file: path="{{ brick_dir }}" state=directory
+
+  - name: Mount brick
+    mount:
+      path: "{{ brick_dir }}"
+      src: "{{ brick_device }}"
+      fstype: xfs
+      state: mounted
+
+  - name: Create inner brick directory
+    file: path="{{ brick_dir }}/{{ brick_name }}" state=directory

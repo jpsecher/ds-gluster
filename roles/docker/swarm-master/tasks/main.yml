@@ -7,12 +7,6 @@
     ignore_errors: True
     register: swarm
 
-  - name: print to stdout
-    command: docker swarm join-token worker
-    register: hello
-
-  - debug: msg="{{ hello.stdout }}"
-
   - name: save swarm worker join-token
     command: docker swarm join-token -q worker
     register: worker_token

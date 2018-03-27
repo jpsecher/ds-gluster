@@ -1,0 +1,10 @@
+---
+- hosts: swarm-worker-2
+  remote_user: "{{ user }}"
+  become: yes
+  become_user: root
+  become_method: sudo
+  roles:
+    - gluster/client-prepare
+    - docker/install-engine
+    - docker/swarm-worker

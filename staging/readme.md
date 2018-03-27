@@ -76,8 +76,9 @@ Copy output values to `inventory.ini`:
 
     [workers]
     swarm-worker-1  ansible_host=ec2-yy-yy-yy-yy.eu-west-1.compute.amazonaws.com
+    swarm-worker-2  ansible_host=ec2-zz-zz-zz-zz.eu-west-1.compute.amazonaws.com
 
-and the storage hostname (from the storage tier-0) to `group_vars/all.yml`:
+and the storage hostname (from the storage master in tier-0) to `group_vars/all.yml`:
 
     gluster_name: ip-xx-xx-xx-xx.eu-west-1.compute.internal
 

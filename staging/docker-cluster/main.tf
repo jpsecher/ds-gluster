@@ -43,7 +43,7 @@ resource "aws_instance" "staging-swarm-node" {
   key_name = "${var.aws_key_name}"
   tags {
     Description = "${var.environment} swarm node"
-    Name = "${var.environment}-swarm-node"
+    Name = "${var.environment}-swarm-node-${count.index}"
     ManagedBy = "terraform"
     Repo = "${var.repository}"
     Organisation = "${var.organisation}"

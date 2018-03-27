@@ -6,7 +6,7 @@ provider "aws" {
 data "aws_availability_zones" "available" {}
 
 resource "aws_security_group" "testing-swarm" {
-  name = "testing swarm"
+  #name = "testing swarm"
   tags {
     Description = "Default security group for swarm nodes in suite testing"
     Name = "testing-swarm"

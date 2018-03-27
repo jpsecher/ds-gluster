@@ -6,7 +6,6 @@ provider "aws" {
 data "aws_availability_zones" "available" {}
 
 resource "aws_security_group" "testing-storage" {
-  name = "testing storage"
   tags {
     Description = "Default security group for storage nodes in suite testing"
     Name = "testing-storage"

@@ -6,7 +6,7 @@ provider "aws" {
 data "aws_availability_zones" "available" {}
 
 resource "aws_security_group" "staging-swarm" {
-  name = "${var.environment} swarm"
+  #name = "${var.environment} swarm"
   tags {
     Description = "Default security group for swarm nodes in ${var.environment}"
     Name = "${var.environment}-swarm"
@@ -34,8 +34,8 @@ resource "aws_security_group" "staging-swarm" {
 resource "aws_instance" "staging-swarm-node" {
   count = "${var.swarm-cluster-zones}"
   availability_zone = "${element(data.aws_availability_zones.available.names, count.index)}"
-  ami = "${var.swarm-ami}"
-  instance_type = "${var.swarm-machine}"
+  ami = "${var.swarm-node-image[count.index]}"
+  instance_type = "${var.swarm-node-type[count.index]}"
   vpc_security_group_ids = ["${aws_security_group.staging-swarm.id}"]
   root_block_device = {
     "delete_on_termination" = true

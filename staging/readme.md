@@ -109,6 +109,26 @@ Start the test swarm:
     $ cd ../..
     $ docker stack deploy -c docker-compose.yml mytest
 
+## Shrink warm  
+
+Drain a node in the swarm is running (see [setup.md](../../setup.md):
+
+    $ export DOCKER_HOST=tcp://localhost:2375
+    $ docker node ls
+    $ docker node update --avilability drain xyz
+
+Remove the drained node from the swarm by decreasing the Terraform variable `swarm-cluster-zones` in `docker-cluster/variables.tf`, and then rerun terraform.
+
+    $ cd  staging/docker-cluster
+    $ terraform plan
+    $ terraform apply
+
+
+Then remove the node
+
+    $ docker node rm xyz
+
+
 ## TODO
 
-- Convert AWS subnet to eg. `173.31.*`
+- Convert AWS subnet to eg. `173.31.*` for Gluster allow.

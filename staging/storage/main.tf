@@ -6,7 +6,7 @@ provider "aws" {
 data "aws_availability_zones" "available" {}
 
 resource "aws_security_group" "staging-storage" {
-  name = "${var.environment} storage"
+  #name = "${var.environment} storage"
   # TODO: limit to TCP and UDP ports 24007-24008 and 49152-49153 (2 bricks) for
   # internal network, and safe IPs for SSH.
   ingress {
@@ -47,8 +47,8 @@ resource "aws_ebs_volume" "staging-storage" {
 
 resource "aws_instance" "staging-storage-node" {
   count = "${var.storage-cluster-zones}"
-  ami = "${var.storage-ami}"
-  instance_type = "${var.storage-machine}"
+  ami = "${var.storage-node-image[count.index]}"
+  instance_type = "${var.storage-node-type[count.index]}"
   vpc_security_group_ids = ["${aws_security_group.staging-storage.id}"]
   root_block_device = {
     "delete_on_termination" = true

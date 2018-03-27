@@ -8,6 +8,7 @@
     gluster_volume:
       name: "{{ volume_name }}"
       state: stopped
+    ignore_errors: True
 
   - name: Create Gluster volume
     gluster_volume:

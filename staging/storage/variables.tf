@@ -9,7 +9,7 @@ variable "storage-machine" {
 
 variable "storage-cluster-zones" {
   description = "Number of availability zones to spread the storage across"
-  default = 2
+  default = 3
 }
 
 variable "storage-gigabytes" {

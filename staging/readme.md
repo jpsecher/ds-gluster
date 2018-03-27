@@ -4,9 +4,10 @@ Plan:
 
 * [x] Default VPC with default subnets in two availability zones.
 * [x] One Gluster server with one brick in each AZ, as a replicated storage.
-* [ ] One Swarm node in each AZ with Gluster volume mounted.
-* [ ] Swarm cluster running "getstarted" app, Redis & Visualizer.
-* [ ] Make it possible to extend/shrink the storage cluster.
+* [x] One Swarm node in each AZ with Gluster volume mounted.
+* [x] Swarm cluster running "getstarted" app, Redis & Visualizer.
+* [ ] Make it possible to extend/shrink the storage, cluster server-wise.
+* [ ] Make it possible to extend/shrink the storage, storage-wise.
 * [ ] Limit security group ingres to be as tight as possible.
 * [ ] Use dedicated VPC (instead of default).
 
@@ -32,7 +33,7 @@ and to `host_vars/storage-master.yml`:
 
     host_name: ip-xx-xx-xx-xx.eu-west-1.compute.internal
 
-and to `host_vars/storage-worker-x.yml`:
+and to all `host_vars/storage-worker-x.yml`:
 
     host_name: ip-yy-yy-yy-yy.eu-west-1.compute.internal
 
@@ -79,6 +80,8 @@ Copy output values to `inventory.ini`:
 and the storage hostname (from the storage tier-0) to `group_vars/all.yml`:
 
     gluster_name: ip-xx-xx-xx-xx.eu-west-1.compute.internal
+
+(TODO: Find out whether it makes a difference when each swarm node connects directly to the Gluster server in the same AZ.)
 
 Then provision the swarm master:
 

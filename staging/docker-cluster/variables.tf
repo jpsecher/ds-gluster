@@ -9,5 +9,5 @@ variable "swarm-machine" {
 
 variable "swarm-cluster-zones" {
   description = "Number of availability zones to spread the swarm across"
-  default = 2
+  default = 3
 }

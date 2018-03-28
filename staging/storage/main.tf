@@ -31,8 +31,7 @@ resource "aws_security_group" "staging-storage" {
   }
 }
 
-// Should be staging-storage-0
-resource "aws_ebs_volume" "staging-storage" {
+resource "aws_ebs_volume" "staging-storage-0" {
   count = "${var.storage-cluster-zones}"
   availability_zone = "${element(data.aws_availability_zones.available.names, count.index)}"
   size = "${var.storage-gigabytes}"
@@ -80,12 +79,10 @@ resource "aws_instance" "staging-storage-node" {
   }
 }
 
-// Should be staging-storage-0-attachment
-resource "aws_volume_attachment" "staging-storage-attachment" {
+resource "aws_volume_attachment" "staging-storage-0-attachment" {
   count = "${var.storage-cluster-zones}"
-  // Should be brick-0-device
-  device_name = "${var.brick-device}"
-  volume_id   = "${aws_ebs_volume.staging-storage.*.id[count.index]}"
+  device_name = "${var.brick-0-device}"
+  volume_id   = "${aws_ebs_volume.staging-storage-0.*.id[count.index]}"
   instance_id = "${aws_instance.staging-storage-node.*.id[count.index]}"
   # Fix for https://github.com/terraform-providers/terraform-provider-aws/issues/2084.
   provisioner "remote-exec" {
@@ -132,11 +129,11 @@ resource "aws_volume_attachment" "staging-storage-1-attachment" {
   }
 }
 
-output "staging-gluster-storage-public-name" {
+output "staging-gluster-storage-public-names" {
   value = "${aws_instance.staging-storage-node.*.public_dns[0]}"
 }
 
-output "staging-storage-nodes-public-name" {
+output "staging-storage-nodes-public-names" {
   value = "${aws_instance.staging-storage-node.*.public_dns}"
 }
 
@@ -144,6 +141,6 @@ output "staging-storage-nodes-hostnames" {
   value = "${aws_instance.staging-storage-node.*.private_dns}"
 }
 
-output "staging-brick-device" {
-  value = "${var.brick-device}"
+output "staging-brick-devices" {
+  value = "${var.brick-0-device} ${var.brick-1-device}"
 }

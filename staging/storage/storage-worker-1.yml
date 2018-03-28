@@ -6,5 +6,6 @@
   become_method: sudo
   roles:
     - gluster/server-prepare
+    # TODO: use brick_names & brick_devices
     - { role: gluster/brick-create, brick_device: /dev/xvdb, brick_name: brick0 }
     - { role: gluster/brick-create, brick_device: /dev/xvdc, brick_name: brick1 }

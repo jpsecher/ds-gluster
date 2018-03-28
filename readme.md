@@ -136,6 +136,7 @@ To see full error messages
     $ sudo gluster peer status
     $ sudo gluster volume info myvol
     $ sudo gluster volume status myvol
+    $ sudo gluster volume status myvol detail
     $ sudo gluster volume heal myvol info
     $ sudo gluster volume start swarm force
 

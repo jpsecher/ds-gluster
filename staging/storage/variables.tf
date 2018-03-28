@@ -17,8 +17,7 @@ variable "storage-gigabytes" {
   default = 2
 }
 
-// Should be brick-0-device
-variable "brick-device" {
+variable "brick-0-device" {
   default = "/dev/xvdb"
 }
 

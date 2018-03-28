@@ -39,7 +39,7 @@ and to all `host_vars/storage-worker-x.yml`:
 
 and to `group_vars/all.yml`:
 
-    brick_device: /dev/xvdb
+    brick_devices: /dev/xvdb,/dev/xvdc
 
 and to `group_vars/workers.yml`:
 

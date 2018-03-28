@@ -35,7 +35,7 @@ services:
       - "6379:6379"
     volumes:
       # TODO: Should be taken from ../ansible/group_vars/all swarm_storage_dir.
-      - /swarm/volumes:/data
+      - /swarm/volumes/mytest:/data
     command: redis-server --appendonly yes
     networks:
       - webnet

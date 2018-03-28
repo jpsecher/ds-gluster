@@ -1,5 +1,5 @@
 ansible_python_interpreter: /usr/bin/python3
 volume_name: swarm
-swarm_storage_dir: /swarm/volumes
+swarm_storage_dir: /swarm/volumes/mytest
 user: ubuntu
 environment: testing

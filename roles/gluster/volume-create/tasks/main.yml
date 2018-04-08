@@ -11,10 +11,10 @@
       state: present
       bricks: "{{ brick_dir }}/brick0,{{ brick_dir }}/brick1"
       cluster: "{% for host in groups['all'] %}{{ hostvars[host]['host_name'] }}{%- if not loop.last -%},{% endif %}{% endfor %}"
-      #replicas: "{{ groups['all']|length}}"
+      replicas: "{{ groups['all']|length}}"
       #host: {{ master_host_name }}
       force: true
-    run_once_: true
+    run_once: true
 
   # TODO: Cannot get this to work:
   # - name: Allow local & internal access

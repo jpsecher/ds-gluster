@@ -1,6 +1,0 @@
-gluster_name: ip-172-31-5-91.eu-west-1.compute.internal
-environment: staging
-volume_name: swarm
-swarm_storage_dir: /swarm/volumes/mytest
-ansible_python_interpreter: /usr/bin/python3
-user: ubuntu

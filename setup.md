@@ -26,4 +26,7 @@ To interact with Docker (Swarm), make a SSH tunnel (in a separate terminal) to o
 
 And tell Docker to use that tunnel:
 
+    $ unset DOCKER_TLS_VERIFY
+    $ unset DOCKER_CERT_PATH
+    $ unset DOCKER_MACHINE_NAME
     $ export DOCKER_HOST=tcp://localhost:2375

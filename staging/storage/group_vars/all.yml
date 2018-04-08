@@ -1,7 +1,0 @@
-brick_names: brick0,brick1
-brick_devices: /dev/xvdb,/dev/xvdc
-brick_dir: /data/gluster/swarm
-volume_name: swarm
-ansible_python_interpreter: /usr/bin/python3
-user: ubuntu
-environment: staging

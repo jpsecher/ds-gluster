@@ -23,26 +23,19 @@ See [setup.md](../setup.md).
 Copy output values to `inventory.ini`:
 
     [master]
-    storage-master  ansible_host=ec2-xx-xx-xx-xx.eu-west-1.compute.amazonaws.co
+    storage-master  ansible_host=ec2-xx-xx-xx-xx.eu-west-1.compute.amazonaws.co \
+                    host_name=ip-xx-xx-xx-xx.eu-west-1.compute.internal
 
     [workers]
-    storage-worker-1  ansible_host=ec2-yy-yy-yy-yy.eu-west-1.compute.amazonaws.com
-    storage-worker-2  ansible_host=ec2-zz-zz-zz-zz.eu-west-1.compute.amazonaws.com
+    storage-worker-1  ansible_host=ec2-yy-yy-yy-yy.eu-west-1.compute.amazonaws.com \
+                      host_name=ip-yy-yy-yy-yy.eu-west-1.compute.internal
+    storage-worker-2  ansible_host=ec2-zz-zz-zz-zz.eu-west-1.compute.amazonaws.com \
+                      host_name=ip-zz-zz-zz-zz.eu-west-1.compute.internal
 
-and to `host_vars/storage-master.yml`:
+    [all:vars]
+    brick_devices=/dev/xvdb,/dev/xvdc
 
-    host_name: ip-xx-xx-xx-xx.eu-west-1.compute.internal
-
-and to all `host_vars/storage-worker-x.yml`:
-
-    host_name: ip-yy-yy-yy-yy.eu-west-1.compute.internal
-
-and to `group_vars/all.yml`:
-
-    brick_devices: /dev/xvdb,/dev/xvdc
-
-and to `group_vars/workers.yml`:
-
+    [workers:vars]
     master_host_name: ip-xx-xx-xx-xx.eu-west-1.compute.internal
 
 ### Workers
@@ -78,7 +71,7 @@ Copy output values to `inventory.ini`:
     swarm-worker-1  ansible_host=ec2-yy-yy-yy-yy.eu-west-1.compute.amazonaws.com
     swarm-worker-2  ansible_host=ec2-zz-zz-zz-zz.eu-west-1.compute.amazonaws.com
 
-and the storage hostname (from the storage master in tier-0) to `group_vars/all.yml`:
+and the storage hostname (from the storage master in tier-0) to `inventory.ini`:
 
     gluster_name: ip-xx-xx-xx-xx.eu-west-1.compute.internal
 
@@ -109,9 +102,9 @@ Start the test swarm:
     $ cd ../..
     $ docker stack deploy -c docker-compose.yml mytest
 
-## Change the swarm  
+## Change the swarm
 
-### Shrink the swarm 
+### Shrink the swarm
 
 To drain a node in the swarm is running (see [setup.md](../../setup.md):
 
@@ -132,11 +125,11 @@ Then remove the node
 
     $ docker node rm xyz
 
-Finally, remove the Ansible files and Terraform lines in `docker-cluster/variables.yml` to reflect the new number of hosts.  Check with terraform plan.
+Finally, remove the Ansible files and Terraform lines in `docker-cluster/variables.yml` to reflect the new number of hosts. Check with terraform plan.
 
-### Expand the swarm 
+### Expand the swarm
 
-To add a node to the swarm, edit the `docker-cluster/variables.yml` to reflect the settings of the new node: Increase the "number of zones" (TODO: should be called "zone spread"), and add a new line to the instance and type maps.  Then do a terraform plan to check the setting of the new node, and the an apply.  Finally follow the above instructions and add a new Ansible file for the new worker.
+To add a node to the swarm, edit the `docker-cluster/variables.yml` to reflect the settings of the new node: Increase the "number of zones" (TODO: should be called "zone spread"), and add a new line to the instance and type maps. Then do a terraform plan to check the setting of the new node, and the an apply. Finally follow the above instructions and add a new Ansible file for the new worker.
 
 ## Change the storage
 
@@ -150,8 +143,6 @@ Log into the Gluster master and remove the brick from the first server to be upd
 
     $ sudo gluster volume remove-brick swarm replica 2 ip-zz-zz-zz-zz.eu-west-1.compute.internal:/data/gluster/swarm/brick0 force
 
-
-
 ## TODO
 
-- Convert AWS subnet to eg. `173.31.*` for Gluster allow.
+* Convert AWS subnet to eg. `173.31.*` for Gluster allow.
